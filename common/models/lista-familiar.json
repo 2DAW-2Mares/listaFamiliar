@@ -19,7 +19,7 @@
       "model": "Usuario",
       "foreignKey": "listaFamiliarId"
     },
-    "owner": {
+    "propietario": {
       "type": "belongsTo",
       "model": "Usuario",
       "foreignKey": "owner"

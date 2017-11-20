@@ -8,4 +8,16 @@ module.exports = function(Listafamiliar) {
         next();
     });
   
+	// Asignar el id de la lista recién creada, al usuario que la creó
+    Listafamiliar.afterRemote('create', function (context, listaFamiliar, next) {
+    	listaFamiliar.propietario(function(err, usuario){
+    		if(err) next(err);
+    		usuario.listaFamiliarId = listaFamiliar.id;
+    		usuario.save(function(err, usuario){
+    			if(err) next(err);
+    			next();
+    		})
+    	})
+    });
+  
 };
