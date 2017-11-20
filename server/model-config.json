@@ -14,25 +14,37 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "mysqlDs"
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "mysqlDs",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "mysqlDs",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "mysqlDs",
     "public": false,
     "options": {
       "strictObjectIDCoercion": true
     }
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "mysqlDs",
     "public": false
+  },
+  "Usuario": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "ListaFamiliar": {
+    "dataSource": "mysqlDs",
+    "public": true
+  },
+  "Producto": {
+    "dataSource": "mysqlDs",
+    "public": true
   }
 }
