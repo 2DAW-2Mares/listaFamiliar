@@ -19,5 +19,27 @@ module.exports = function(Listafamiliar) {
     		})
     	})
     });
-  
+
+	/**
+	 * Añade una solicitud, del usuario autenticado, a la lista familiar seleccionada.
+	 * @param {object} contexto El objeto del contexto
+	 * @param {Function(Error, object)} callback
+	 */
+
+	Listafamiliar.prototype.solicitar = function(contexto, callback) {
+		var solicitud;
+		var listaFamiliar = this;
+		var userId = contexto.req.accessToken.userId;
+		
+		listaFamiliar.solicitudes.add(userId,
+			function(err) {
+				if(err) callback(err);
+				solicitud = {
+					listaFamiliarId: listaFamiliar.id,
+					usuarioId: userId
+				}
+				callback(null, solicitud);
+			}
+		);
+	};
 };
