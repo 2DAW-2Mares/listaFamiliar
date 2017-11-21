@@ -38,7 +38,43 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "aceptarSolicitud"
     }
   ],
-  "methods": {}
+  "methods": {
+    "prototype.aceptarSolicitud": {
+      "accepts": [
+        {
+          "arg": "request",
+          "type": "object",
+          "required": true,
+          "description": "La petición que ha dado lugar a la ejecución de este método",
+          "http": {
+            "source": "req"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "usuariosEnLista",
+          "type": "array",
+          "root": true,
+          "description": "Los usuarios de la lista, una vez que se ha gestionado la solicitud."
+        }
+      ],
+      "description": "Le enviamos un identificador de usuario y, si ese usuario tiene alguna solicitud en la lista de la que es miembro el actualmente autenticado, esta solicitud será aprobada.",
+      "http": [
+        {
+          "path": "/aceptarSolicitud",
+          "verb": "put"
+        }
+      ]
+    }
+  }
 }
