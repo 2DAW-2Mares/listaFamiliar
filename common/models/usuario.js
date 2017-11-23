@@ -57,5 +57,41 @@ module.exports = function(Usuario) {
 		})
 	};
 
+	/**
+	 * El usuario autenticado rechaza la solicitud de pertenencia a su lista del usuario cuyo id se facilita.
+	 * @param {object} request El objeto que contiene la petición del usuario autenticado
+	 * @param {Function(Error, array)} callback
+	 */
+
+	Usuario.prototype.rechazarSolicitud = function(request, callback) {
+		var usuariosEnLista = [];
+
+		// Como es un método de instancia, podemos utilizar this. En este caso, guardamos this como usuarioSolicitante.
+		var usuarioSolicitante = this;
+
+		// Guardamos el id del usuario autenticado
+		var autenticadoId = request.accessToken.userId;
+
+		//¿Cuál es la listaFamiliar asociada al usuario autenticado
+		Usuario.findById(autenticadoId, function(err, usuarioAutenticado) {
+			if (err) callback(err);
+
+			Usuario.find({
+					where: {
+						listaFamiliarId: usuarioAutenticado.listaFamiliarId
+					}
+				},
+				function(err, usuariosEnLista) {
+					if (err) callback(err);
+						
+					//borramos la solicitud
+					usuarioSolicitante.solicitudes.remove(usuarioAutenticado.listaFamiliarId, function(err) {
+						if (err) callback(err);
+						callback(null, usuariosEnLista);
+					})
+				}
+			);
+		})
+	};
 
 };

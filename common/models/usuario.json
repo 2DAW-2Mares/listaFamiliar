@@ -45,6 +45,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "aceptarSolicitud"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "rechazarSolicitud"
     }
   ],
   "methods": {
@@ -73,6 +80,34 @@
         {
           "path": "/aceptarSolicitud",
           "verb": "put"
+        }
+      ]
+    },
+    "prototype.rechazarSolicitud": {
+      "accepts": [
+        {
+          "arg": "request",
+          "type": "object",
+          "required": true,
+          "description": "El objeto que contiene la petición del usuario autenticado",
+          "http": {
+            "source": "req"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "usuariosEnLista",
+          "type": "array",
+          "root": true,
+          "description": "Los usuarios de la lista, una vez que se ha gestionado la solicitud."
+        }
+      ],
+      "description": "El usuario autenticado rechaza la solicitud de pertenencia a su lista del usuario cuyo id se facilita.",
+      "http": [
+        {
+          "path": "/rechazarSolicitud",
+          "verb": "delete"
         }
       ]
     }
