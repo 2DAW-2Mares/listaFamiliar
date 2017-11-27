@@ -2,6 +2,36 @@
 
 module.exports = function(Usuario) {
 
+	Usuario.observe('before save', function(ctx, next) {
+		ctx.hookState.currentListaFamiliar = ctx.currentInstance.listaFamiliarId;
+		next();
+	});
+
+	Usuario.observe('after save', function(ctx, next) {
+		if(ctx.instance.listaFamiliarId != ctx.hookState.currentListaFamiliar) {
+			// Comprobamos si el usuario aparece como owner en alguna listaFamiliar
+			var ListaFamiliar = Usuario.app.models.ListaFamiliar;
+			ListaFamiliar.findOne({where:{owner:ctx.instance.id}}, function(err, listaFamiliar){
+				if(err) next(err);
+				if(listaFamiliar) {
+					// Buscamos a un usuario que sustituya
+					listaFamiliar.propietarioAlternativo(function(err, nuevoPropietario){
+						if(err) next(err);
+						next();
+					});
+				} else {
+					// Como no era el propietario de ninguna lista, podemos continuar
+					next();
+				}
+			});
+
+		} else {
+			// Se han guardado los datos del usuario sin modificar el atributo listaFamiliarId, por lo que podemos continuar
+			next();
+		}
+
+	});
+
 	/**
 	 * Le enviamos un identificador de usuario y, si ese usuario tiene alguna solicitud en la lista de la que es miembro el actualmente autenticado, esta solicitud será aprobada.
 	 * @param {object} request La petición que ha dado lugar a la ejecución de este método
@@ -33,11 +63,8 @@ module.exports = function(Usuario) {
 						// Si no se encuentra la relación entre el usuario solicitante y la listafamiliar devuelve un error 
 						if (err) callback(err);
 
-						// asociar la listaFamiliar del autenticado al solicitante
-						usuarioSolicitante.listaFamiliarId = usuarioAutenticado.listaFamiliarId;
-
-						// Guardamos los cambios del usuarioSolicitante
-						usuarioSolicitante.save(function(err, usuarioSolicitante) {
+						// asociar la listaFamiliar del autenticado al solicitante, guardando los cambios
+						usuarioSolicitante.updateAttribute('listaFamiliarId',usuarioAutenticado.listaFamiliarId, function(err, usuarioSolicitante) {
 							
 							// Añadimos al usuario al array de usuarios de la listaFamiliar para devolverlo posteriormente
 							usuariosEnLista.push(usuarioSolicitante);

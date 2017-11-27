@@ -71,4 +71,31 @@ module.exports = function(Listafamiliar) {
 			}
 		);
 	};
+
+	Listafamiliar.prototype.propietarioAlternativo = function(callback) {
+		var Usuario = Listafamiliar.app.models.Usuario;
+		var listaFamiliar = this;
+
+		// Buscamos a uno de los miembros de la listaFamiliar
+		Usuario.findOne({
+			where: {
+				listaFamiliarId: listaFamiliar.id
+			}
+		}, function(err, usuario) {
+			if (err) callback(err);
+			if (usuario) {
+				listaFamiliar.updateAttribute('owner', usuario.id, function(err, usuario){
+					if(err) callback(err);
+					callback(null, usuario);
+				});
+			} else {
+				// Como no existe ningún usuario más en esa lista, la borramos
+				// No hemos conseguido poner un propietario alternativo, por lo que borramos la lista
+				listaFamiliar.destroy(function(err) {
+					if (err) next(err);
+					callback(null, null);
+				})
+			}
+		})
+	};
 };
