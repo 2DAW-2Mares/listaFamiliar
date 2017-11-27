@@ -30,7 +30,43 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "amazonProductos"
     }
   ],
-  "methods": {}
+  "methods": {
+    "amazonProductos": {
+      "accepts": [
+        {
+          "arg": "criterio",
+          "type": "string",
+          "required": false,
+          "description": "El criterio de búsqueda que enviaremos a la API de Amazon",
+          "http": {
+            "source": "query"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "productos",
+          "type": "array",
+          "root": true,
+          "description": "Los productos de Amazon que coinciden con los criterios."
+        }
+      ],
+      "description": "Obtiene productos de Amazon según un criterio de búsqueda",
+      "http": [
+        {
+          "path": "/amazonProductos",
+          "verb": "get"
+        }
+      ]
+    }
+  }
 }
