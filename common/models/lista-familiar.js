@@ -20,6 +20,35 @@ module.exports = function(Listafamiliar) {
     	})
     });
 
+	// Eliminar cualquier solicitud anterior del usuario
+	Listafamiliar.afterRemote('prototype.solicitar', function(context, listaFamiliar, next) {
+		var Usuario = Listafamiliar.app.models.Usuario;
+		var userId = context.req.accessToken.userId;
+		var async = require('async');
+
+		Usuario.findById(userId, function(err, usuario) {
+			if (err) next(err);
+			usuario.solicitudes(function(err, solicitudes) {
+				if (err) next(err);
+
+				async.each(solicitudes,function(listaSolicitada, cb) {
+					if (listaSolicitada.id != listaFamiliar.listaFamiliarId) {
+						usuario.solicitudes.remove(listaSolicitada, function(err) {
+							if (err) cb(err);
+							cb();
+						});
+					} else {
+						cb();
+					}
+				}, function(err) {
+					if (err) next(err);
+					next();
+				});
+			});
+		});
+
+	});
+
 	/**
 	 * Añade una solicitud, del usuario autenticado, a la lista familiar seleccionada.
 	 * @param {object} contexto El objeto del contexto
