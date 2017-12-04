@@ -29,8 +29,51 @@
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "ALLOW"
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "updateAll"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "miembroLista",
+      "permission": "ALLOW",
+      "property": "comprado"
     }
   ],
-  "methods": {}
+  "methods": {
+    "prototype.comprado": {
+      "accepts": [
+        {
+          "arg": "contexto",
+          "type": "object",
+          "required": true,
+          "description": "El objeto del contexto",
+          "http": {
+            "source": "context"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "productoModificado",
+          "type": "object",
+          "root": true,
+          "description": "El producto modificado"
+        }
+      ],
+      "description": "negar el atributo comprar del producto indicado, es decir, si anteriormente estaba a false se pondrá a true y viceversa",
+      "http": [
+        {
+          "path": "/comprado",
+          "verb": "put"
+        }
+      ]
+    }
+  }
 }

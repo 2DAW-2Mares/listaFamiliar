@@ -47,4 +47,20 @@ module.exports = function(Producto) {
         next();
       });
   });
+
+  /**
+   * Negar el atributo comprar del producto indicado, es decir, si anteriormente estaba a false se pondrá a true y viceversa
+   * @param {object} contexto El objeto del contexto
+   * @param {Function(Error, object)} callback
+   */
+
+  Producto.prototype.comprado = function(contexto, callback) {
+    var productoModificado = this;
+    productoModificado.comprar = !productoModificado.comprar;
+    productoModificado.save(function (err, producto) {
+      if (err) callback(err);
+      callback(null, productoModificado);
+    });
+  };
+
 };
