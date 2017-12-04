@@ -2,13 +2,22 @@
 
 module.exports = function(Usuario) {
 
-	Usuario.observe('before save', function(ctx, next) {
-		ctx.hookState.currentListaFamiliar = ctx.currentInstance.listaFamiliarId;
+  // La lista siempre se asocia desde el código y nunca se puede enviar desde el cliente
+  Usuario.beforeRemote('**', function (context, usuario, next) {console.info(context.args);
+    if (context.args.data)
+      delete context.args.data.listaFamiliarId;
+    next();
+  });
+
+  Usuario.observe('before save', function(ctx, next) {
+    if (ctx.currentInstance) {
+		  ctx.hookState.currentListaFamiliar = ctx.currentInstance.listaFamiliarId;
+    }
 		next();
 	});
 
 	Usuario.observe('after save', function(ctx, next) {
-		if(ctx.instance.listaFamiliarId != ctx.hookState.currentListaFamiliar) {
+		if(ctx.instance && (ctx.instance.listaFamiliarId != ctx.hookState.currentListaFamiliar)) {
 			// Comprobamos si el usuario aparece como owner en alguna listaFamiliar
 			var ListaFamiliar = Usuario.app.models.ListaFamiliar;
 			ListaFamiliar.findOne({where:{owner:ctx.instance.id}}, function(err, listaFamiliar){
@@ -60,12 +69,12 @@ module.exports = function(Usuario) {
 					if (err) callback(err);
 					// ¿El solicitante ha realizado alguna solicitud a la lista del usuarioAutenticado?
 					usuarioSolicitante.solicitudes.findById(usuarioAutenticado.listaFamiliarId, function(err, listaFamiliar) {
-						// Si no se encuentra la relación entre el usuario solicitante y la listafamiliar devuelve un error 
+						// Si no se encuentra la relación entre el usuario solicitante y la listafamiliar devuelve un error
 						if (err) callback(err);
 
 						// asociar la listaFamiliar del autenticado al solicitante, guardando los cambios
 						usuarioSolicitante.updateAttribute('listaFamiliarId',usuarioAutenticado.listaFamiliarId, function(err, usuarioSolicitante) {
-							
+
 							// Añadimos al usuario al array de usuarios de la listaFamiliar para devolverlo posteriormente
 							usuariosEnLista.push(usuarioSolicitante);
 
@@ -110,7 +119,7 @@ module.exports = function(Usuario) {
 				},
 				function(err, usuariosEnLista) {
 					if (err) callback(err);
-						
+
 					//borramos la solicitud
 					usuarioSolicitante.solicitudes.remove(usuarioAutenticado.listaFamiliarId, function(err) {
 						if (err) callback(err);

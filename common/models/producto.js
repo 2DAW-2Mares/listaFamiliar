@@ -1,6 +1,14 @@
 'use strict';
 
 module.exports = function(Producto) {
+
+  // La lista siempre se asocia desde el código y nunca se puede enviar desde el cliente
+  Producto.beforeRemote('**', function (context, producto, next) {
+    if (context.args.data)
+      delete context.args.data.listaFamiliarId;
+    next();
+  });
+
   Producto.beforeRemote('updateAll', function(context, producto, next) {
     var userId = context.req.accessToken.userId;
     var Usuario = Producto.app.models.Usuario;
