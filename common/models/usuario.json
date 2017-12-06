@@ -59,6 +59,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "find"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "propietarioLista",
+      "permission": "ALLOW",
+      "property": "nuevoPropietario"
     }
   ],
   "methods": {
@@ -115,6 +122,34 @@
         {
           "path": "/rechazarSolicitud",
           "verb": "delete"
+        }
+      ]
+    },
+    "prototype.nuevoPropietario": {
+      "accepts": [
+        {
+          "arg": "context",
+          "type": "object",
+          "required": true,
+          "description": "El objeto de contexto",
+          "http": {
+            "source": "context"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "listaFamiliar",
+          "type": "object",
+          "root": true,
+          "description": "La lista familiar con el nuevo propietario"
+        }
+      ],
+      "description": "Transferir la propiedad de la lista del usuario autenticado",
+      "http": [
+        {
+          "path": "/nuevoPropietario",
+          "verb": "put"
         }
       ]
     }

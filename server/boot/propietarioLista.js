@@ -38,9 +38,15 @@ module.exports = function (app) {
           // Estamos intentando operar con un Usuario
           // De momento, el único ACL de Usuario asociado al rol propietarioLista es 'rechazarSolicitud'
           // Por lo que debemos mirar si el solicitante tiene alguna solicitud en la lista del autenticado
-          usuario.esPropietarioDeLaListaFamiliarDelSolicitante(instance, function(err, esPropietarioLista){
-            return cb(err, esPropietarioLista);
-          })
+          if (context.method == 'rechazarSolicitud') {
+            usuario.esPropietarioDeLaListaFamiliarDelSolicitante(instance, function (err, esPropietarioLista) {
+              return cb(err, esPropietarioLista);
+            });
+          } else if (context.method == 'nuevoPropietario') {
+            usuario.esPropietarioDeLaListaFamiliarDelOtroUsuario(instance, function (err, esPropietarioLista) {
+              return cb(err, esPropietarioLista);
+            });
+          }
         }
 
       });

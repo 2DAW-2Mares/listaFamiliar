@@ -158,6 +158,29 @@ module.exports = function(Usuario) {
     };
   });
 
+  /**
+   * Transferir la propiedad de la lista del usuario autenticado
+   * @param {object} contexto El objeto de contexto
+   * @param {Function(Error, object)} callback
+   */
+
+  Usuario.prototype.nuevoPropietario = function(context, callback) {
+    var ListaFamiliar = Usuario.app.models.ListaFamiliar;
+    var nuevoPropietario = this;
+    var userId = context.req.accessToken.userId;
+
+    Usuario.findById(userId, function (err, usuario) {
+      if (err) callback(err);
+      if (usuario.listaFamiliarId == nuevoPropietario.listaFamiliarId) {
+        ListaFamiliar.findById(usuario.listaFamiliarId, function (err, listaFamiliar) {
+          listaFamiliar.updateAttribute('owner', nuevoPropietario.id, function(err, listaFamiliar){
+            callback(err, listaFamiliar);
+          });
+        });
+      }
+    });
+  };
+
   Usuario.prototype.tieneSolicitudEnListaFamiliar = function(listaFamiliarId, callback) {
     this.solicitudes.findById(listaFamiliarId, function(err, listaFamiliar) {
       // Si no se encuentra la relación entre el usuario solicitante y la listafamiliar devuelve un error
@@ -174,6 +197,16 @@ module.exports = function(Usuario) {
   Usuario.prototype.esPropietarioDeLaListaFamiliarDelSolicitante = function(solicitante, callback) {
     var usuario = this;
     solicitante.solicitudes.findById(usuario.listaFamiliarId, function(err, listaFamiliar) {
+      // Si no se encuentra la relación entre el usuario solicitante y la listafamiliar devuelve un error
+      return callback(err, listaFamiliar && listaFamiliar.owner === usuario.id)
+    })
+  }
+
+  Usuario.prototype.esPropietarioDeLaListaFamiliarDelOtroUsuario = function(otroUsuario, callback) {
+    var ListaFamiliar = Usuario.app.models.ListaFamiliar;
+    var usuario = this;
+
+    ListaFamiliar.findById(otroUsuario.listaFamiliarId, function(err, listaFamiliar) {
       // Si no se encuentra la relación entre el usuario solicitante y la listafamiliar devuelve un error
       return callback(err, listaFamiliar && listaFamiliar.owner === usuario.id)
     })
