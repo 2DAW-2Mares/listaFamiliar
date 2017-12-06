@@ -165,4 +165,26 @@ module.exports = function(Usuario) {
     })
   }
 
+  Usuario.prototype.esPropietariodelaListaFamiliarDelProducto = function(producto, callback) {
+    this.esPropietarioDeLaListaFamiliarPorId(producto.listaFamiliarId, function(err, esPropietario) {
+      return callback(err, esPropietario);
+    })
+  }
+
+  Usuario.prototype.esPropietarioDeLaListaFamiliarDelSolicitante = function(solicitante, callback) {
+    var usuario = this;
+    solicitante.solicitudes.findById(usuario.listaFamiliarId, function(err, listaFamiliar) {
+      // Si no se encuentra la relación entre el usuario solicitante y la listafamiliar devuelve un error
+      return callback(err, listaFamiliar && listaFamiliar.owner === usuario.id)
+    })
+  }
+
+  Usuario.prototype.esPropietarioDeLaListaFamiliarPorId = function(listaFamiliarId, callback) {
+    var usuario = this;
+    var ListaFamiliar = Usuario.app.models.ListaFamiliar;
+    ListaFamiliar.findById(listaFamiliarId, function(err, listaFamiliar){
+      return callback(err, listaFamiliar && listaFamiliar.owner === usuario.id)
+    });
+  }
+
 };
