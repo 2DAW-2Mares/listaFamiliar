@@ -71,4 +71,13 @@ module.exports = function(Producto) {
     });
   };
 
+  Producto.prototype.estaEnLaListaFamiliar = function(listaFamiliarId, callback) {
+    // Chequeamos si las listas del producto y del usuario coinciden
+    if(this.listaFamiliarId == listaFamiliarId) {
+      return callback(null, true);
+    } else {
+      return callback(null, false);
+    }
+  };
+
 };

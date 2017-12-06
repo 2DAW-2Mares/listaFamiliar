@@ -42,14 +42,14 @@
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
+      "principalId": "miembroLista",
       "permission": "ALLOW",
       "property": "aceptarSolicitud"
     },
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
+      "principalId": "propietarioLista",
       "permission": "ALLOW",
       "property": "rechazarSolicitud"
     },

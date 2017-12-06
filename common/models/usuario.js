@@ -87,7 +87,6 @@ module.exports = function(Usuario) {
 							})
 						})
 					})
-
 				}
 			);
 		})
@@ -158,5 +157,12 @@ module.exports = function(Usuario) {
       return filter;
     };
   });
+
+  Usuario.prototype.tieneSolicitudEnListaFamiliar = function(listaFamiliarId, callback) {
+    this.solicitudes.findById(listaFamiliarId, function(err, listaFamiliar) {
+      // Si no se encuentra la relación entre el usuario solicitante y la listafamiliar devuelve un error
+      return callback(err, listaFamiliar ? true : false);
+    })
+  }
 
 };
