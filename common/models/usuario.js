@@ -3,7 +3,7 @@
 module.exports = function(Usuario) {
 
   // La lista siempre se asocia desde el código y nunca se puede enviar desde el cliente
-  Usuario.beforeRemote('**', function (context, usuario, next) {console.info(context.args);
+  Usuario.beforeRemote('**', function (context, usuario, next) {
     if (context.args.data)
       delete context.args.data.listaFamiliarId;
     next();
@@ -129,5 +129,34 @@ module.exports = function(Usuario) {
 			);
 		})
 	};
+
+  Usuario.beforeRemote('find', function(context, usuario, next) {
+    var userId = context.req.accessToken.userId;
+
+    Usuario.findById(userId, function(err, usuario) {
+      // Vamos a añadir o modificar el filtro llamando a una funcion
+      context.args.filter.where = Usuario.addListaFilter(context.args.filter.where, usuario.listaFamiliarId);
+      context.args.filter.fields = ['nombre', 'apellidos'];
+      next();
+    });
+
+    // En esta función se añade o se crea el filtro correspondiente para que los cambios afecten unicamente la lista a la que pertenece
+    Usuario.addListaFilter = function(filter, listaFamiliarId) {
+      if (filter) {
+        var filterJSON = filter;
+        filterJSON = {
+          'and': [{
+            'listaFamiliarId': listaFamiliarId,
+          }, filterJSON],
+        };
+        filter = filterJSON;
+      } else {
+        filter = {
+          'listaFamiliarId': listaFamiliarId,
+        };
+      }
+      return filter;
+    };
+  });
 
 };

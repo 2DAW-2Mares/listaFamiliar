@@ -52,6 +52,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "rechazarSolicitud"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "find"
     }
   ],
   "methods": {
