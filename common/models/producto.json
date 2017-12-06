@@ -41,9 +41,28 @@
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
+      "principalId": "miembroAlgunaLista",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
       "principalId": "miembroLista",
       "permission": "ALLOW",
       "property": "comprado"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "miembroLista",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "miembroLista",
+      "permission": "ALLOW"
     }
   ],
   "methods": {

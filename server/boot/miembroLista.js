@@ -26,6 +26,7 @@ module.exports = function (app) {
       if (err) return cb(err);
       // Q: Is the current logged-in user associated with this Project?
       // Step 1: lookup the requested project
+      if (!context.modelId) return cb(null, false);
       context.model.findById(context.modelId, function (err, instance) {
         // A: The datastore produced an error! Pass error to callback
         if (err) return cb(err);

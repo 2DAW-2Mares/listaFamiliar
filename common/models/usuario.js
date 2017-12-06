@@ -187,4 +187,12 @@ module.exports = function(Usuario) {
     });
   }
 
+  Usuario.prototype.esMiembroDeAlgunaListaFamiliar = function(callback) {
+    var usuario = this;
+    var ListaFamiliar = Usuario.app.models.ListaFamiliar;
+    ListaFamiliar.findById(usuario.listaFamiliarId, function(err, listaFamiliar){
+      return callback(err, listaFamiliar ? true : false);
+    });
+  }
+
 };

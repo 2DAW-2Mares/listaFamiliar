@@ -4,9 +4,19 @@ module.exports = function(Producto) {
 
   // La lista siempre se asocia desde el código y nunca se puede enviar desde el cliente
   Producto.beforeRemote('**', function (context, producto, next) {
-    if (context.args.data)
+    if (context.args.data && context.method.name != 'create')
       delete context.args.data.listaFamiliarId;
     next();
+  });
+
+  // Asignar la 'listaFamiliar' del usuario que la va a crear
+  Producto.beforeRemote('create', function (context, producto, next) {
+    var Usuario = Producto.app.models.Usuario;
+    Usuario.findById(context.req.accessToken.userId, function(err, usuario){
+      if (err) next(err);
+      context.args.data.listaFamiliarId = usuario.listaFamiliarId;
+      next();
+    })
   });
 
   Producto.beforeRemote('updateAll', function(context, producto, next) {
