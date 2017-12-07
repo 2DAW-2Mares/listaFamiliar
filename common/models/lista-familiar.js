@@ -7,7 +7,7 @@ module.exports = function(Listafamiliar) {
         context.args.data.owner = context.req.accessToken.userId;
         next();
     });
-  
+
 	// Asignar el id de la lista recién creada, al usuario que la creó
     Listafamiliar.afterRemote('create', function (context, listaFamiliar, next) {
     	listaFamiliar.propietario(function(err, usuario){
@@ -98,4 +98,43 @@ module.exports = function(Listafamiliar) {
 			}
 		})
 	};
+
+  /**
+   * Invitar a un usuario por email
+   * @param {object} context El objeto de contexto
+   * @param {string} email El email del usuario al que se va a invitar
+   * @param {Function(Error, string)} callback
+   */
+
+  Listafamiliar.invitar = function(context, email, callback) {
+    var config = require('../../server/config.local.js');
+    var Email = Listafamiliar.app.models.Email;
+    var Usuario = Listafamiliar.app.models.Usuario;
+
+    var mensaje = "Email enviado a " + email;
+
+    Usuario.findById(context.req.accessToken.userId, function (err, usuario) {
+      var html = '<h3>' + usuario.nombre + ' ' + usuario.apellidos +
+        ' te ha invitado a participar en su lista de la compra ' +
+        '(listaId: ' + usuario.listaFamiliarId + ') </h3>' +
+        'Reg&iacute;strate ' +
+        '<a href="http://' + config.host + ':' + config.port + '/explorer"' +
+        '>aqu&iacute;</a>';
+// TODO crear la página de registro y login y cambiar la dirección del enlace
+      var options = {
+        type: 'email',
+        to: email,
+        from: config.email_user,
+        subject: 'Apúntate a mi lista.',
+        text: 'Descarga la aplicaci&oacute;n m&oacute;l',
+        html: html
+      };
+
+      Email.send(options, function(err, mail) {
+        if (err) callback(err);
+        callback(null, mensaje);
+      });
+    });
+  };
+
 };

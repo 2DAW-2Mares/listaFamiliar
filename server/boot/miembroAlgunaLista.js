@@ -6,7 +6,7 @@ module.exports = function (app) {
 
   Role.registerResolver('miembroAlgunaLista', function (role, context, cb) {
     // Q: Is the current request accessing a Project?
-    if (context.modelName !== 'Producto') {
+    if (context.modelName !== 'Producto' && context.modelName !== 'ListaFamiliar') {
       // A: No. This role is only for productos: callback with FALSE
       return process.nextTick(() => cb(null, false));
     }

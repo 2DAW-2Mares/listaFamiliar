@@ -67,6 +67,13 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "miembroAlgunaLista",
+      "permission": "ALLOW",
+      "property": "invitar"
     }
   ],
   "methods": {
@@ -95,6 +102,43 @@
         {
           "path": "/solicitar",
           "verb": "post"
+        }
+      ]
+    },
+    "invitar": {
+      "accepts": [
+        {
+          "arg": "context",
+          "type": "object",
+          "required": true,
+          "description": "El objeto de contexto",
+          "http": {
+            "source": "context"
+          }
+        },
+        {
+          "arg": "email",
+          "type": "string",
+          "required": true,
+          "description": "El email del usuario al que se va a invitar",
+          "http": {
+            "source": "query"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "mensaje",
+          "type": "string",
+          "root": true,
+          "description": "Mensaje de correo enviado"
+        }
+      ],
+      "description": "Invitar a un usuario por email",
+      "http": [
+        {
+          "path": "/invitar",
+          "verb": "get"
         }
       ]
     }

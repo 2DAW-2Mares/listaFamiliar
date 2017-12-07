@@ -12,5 +12,19 @@ module.exports = {
     user: config.db_user,
     password: config.db_password,
     database: 'lista_familiar',
+  },
+  EmailDS: {
+    name: "EmailDS",
+    connector: "mail",
+    transports: [{
+      type: "SMTP",
+      host: "smtp.gmail.com",
+      secure: true,
+      port: 465,
+      auth: {
+        user: config.email_user,
+        pass: config.email_password
+      }
+    }]
   }
 };
