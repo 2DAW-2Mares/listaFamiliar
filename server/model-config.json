@@ -14,8 +14,7 @@
     ]
   },
   "User": {
-    "dataSource": "mysqlDs",
-    "public": false
+    "dataSource": "mysqlDs"
   },
   "AccessToken": {
     "dataSource": "mysqlDs",
@@ -44,6 +43,12 @@
         "sharedMethods": {
           "*": false,
           "find": true,
+          "create": true,
+          "login": true,
+          "logout": true,
+          "resetPassword": true,
+          "setPassword": true,
+          "prototype.patchAttributes": true,
           "prototype.aceptarSolicitud": true,
           "prototype.rechazarSolicitud": true,
           "prototype.nuevoPropietario": true
