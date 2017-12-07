@@ -134,26 +134,29 @@ module.exports = function(Usuario) {
 
     Usuario.findById(userId, function(err, usuario) {
       // Vamos a añadir o modificar el filtro llamando a una funcion
-      context.args.filter.where = Usuario.addListaFilter(context.args.filter.where, usuario.listaFamiliarId);
+      context.args.filter = Usuario.addListaFilter(context.args.filter, usuario.listaFamiliarId);
       context.args.filter.fields = ['nombre', 'apellidos'];
       next();
     });
 
     // En esta función se añade o se crea el filtro correspondiente para que los cambios afecten unicamente la lista a la que pertenece
     Usuario.addListaFilter = function(filter, listaFamiliarId) {
-      if (filter) {
-        var filterJSON = filter;
+      if (!filter) filter = {};
+      var where = filter.where;
+      if (where) {
+        var filterJSON = where;
         filterJSON = {
           'and': [{
             'listaFamiliarId': listaFamiliarId,
-          }, filterJSON],
+          }, filterJSON]
         };
-        filter = filterJSON;
+        where = filterJSON;
       } else {
-        filter = {
+        where = {
           'listaFamiliarId': listaFamiliarId,
         };
       }
+      filter.where = where;
       return filter;
     };
   });
