@@ -14,7 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "mysqlDs"
+    "dataSource": "mysqlDs",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "mysqlDs",
@@ -37,11 +38,37 @@
   },
   "Usuario": {
     "dataSource": "mysqlDs",
-    "public": true
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "find": true,
+          "prototype.aceptarSolicitud": true,
+          "prototype.rechazarSolicitud": true,
+          "prototype.nuevoPropietario": true
+        }
+      }
+    }
   },
   "ListaFamiliar": {
     "dataSource": "mysqlDs",
-    "public": true
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "find": true,
+          "findById": true,
+          "deleteById": true,
+          "create": true,
+          "invitar": true,
+          "prototype.solicitar": true,
+          "prototype.solicitar": true,
+          "prototype.propietarioAlternativo": true
+        }
+      }
+    }
   },
   "Producto": {
     "dataSource": "mysqlDs",
