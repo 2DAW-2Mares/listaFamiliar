@@ -66,6 +66,13 @@
       "principalId": "propietarioLista",
       "permission": "ALLOW",
       "property": "nuevoPropietario"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "patchAttributes"
     }
   ],
   "methods": {
