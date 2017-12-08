@@ -8,7 +8,7 @@ angular
   .controller('AuthLoginController', ['$scope', 'AuthService', '$state',
       function($scope, AuthService, $state) {
     $scope.usuario = {
-      email: 'alberto.sierra@murciaeduca.es',
+      email: 'email@iesdosmares.com',
       password: 'alumno'
     };
 
@@ -43,15 +43,21 @@ angular
   }])
   .controller('SignUpController', ['$scope', 'AuthService', '$state',
       function($scope, AuthService, $state) {
-    $scope.user = {
-      email: 'baz@qux.com',
-      password: 'bazqux'
+    $scope.usuario = {
+      nombre: 'miNombre',
+      apellidos: 'misApellidos',
+      email: 'email@iesdosmares.com',
+      password: 'alumno'
     };
 
     $scope.register = function() {
-      AuthService.register($scope.user.email, $scope.user.password)
+      AuthService.register(
+        $scope.usuario.nombre,
+        $scope.usuario.apellidos,
+        $scope.usuario.email,
+        $scope.usuario.password)
         .then(function() {
-          $state.transitionTo('sign-up-success');
+          $state.transitionTo('login');
         });
     };
   }]);

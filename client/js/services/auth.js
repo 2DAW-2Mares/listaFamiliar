@@ -29,13 +29,15 @@ angular
        });
     }
 
-    function register(email, password) {
+    function register(nombre, apellidos, email, password) {
       return Usuario
         .create({
-         email: email,
-         password: password
-       })
-       .$promise;
+          nombre: nombre,
+          apellidos: apellidos,
+          email: email,
+          password: password
+        })
+        .$promise;
     }
 
     function refresh(accessTokenId) {

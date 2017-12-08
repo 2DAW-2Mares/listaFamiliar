@@ -1,26 +1,26 @@
 <ion-view title="Signup" id="page6">
   <ion-content padding="true" class="has-header">
-    <form id="signup-form2" class="list">
+    <form id="signup-form2" class="list" ng-submit="register()">
       <ion-list id="signup-list9">
         <label class="item item-input" id="signup-input3">
           <span class="input-label">Nombre</span>
-          <input type="text" placeholder="">
+          <input type="text" placeholder="" ng-model="usuario.nombre">
         </label>
         <label class="item item-input" id="signup-input9">
           <span class="input-label">Apellidos</span>
-          <input type="text" placeholder="">
+          <input type="text" placeholder="" ng-model="usuario.apellidos">
         </label>
         <label class="item item-input" id="signup-input4">
           <span class="input-label">Email</span>
-          <input type="email" placeholder="">
+          <input type="email" placeholder="" ng-model="usuario.email">
         </label>
         <label class="item item-input" id="signup-input5">
           <span class="input-label">Password</span>
-          <input type="password" placeholder="">
+          <input type="password" placeholder="" ng-model="usuario.password">
         </label>
         <label class="item item-input" id="signup-input10">
           <span class="input-label">Repita Password</span>
-          <input type="password" placeholder="">
+          <input type="password" placeholder="" ng-model="usuario.password2">
         </label>
       </ion-list>
       <button id="signup-button3" class="button button-stable button-block">Sign up</button>
