@@ -55,7 +55,7 @@
     {
       "accessType": "READ",
       "principalType": "ROLE",
-      "principalId": "miembroLista",
+      "principalId": "miembroAlgunaLista",
       "permission": "ALLOW"
     },
     {

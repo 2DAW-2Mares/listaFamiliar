@@ -26,7 +26,7 @@ angular.module('app.routes', [])
     views: {
       'tab1': {
         templateUrl: 'templates/miLista.html',
-        controller: 'miListaCtrl'
+        controller: 'MiListaController'
       }
     }
   })

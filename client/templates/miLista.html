@@ -1,4 +1,4 @@
-<ion-view title="Mi Lista" id="page9">
+<ion-view title="Mi Lista" id="miLista">
   <ion-content padding="true" class="has-header">
     <form id="miLista-form13" class="list">
       <label class="item item-input" id="miLista-input13">
@@ -8,10 +8,11 @@
       <button id="miLista-button19" class="button button-positive button-small button-block icon-right ion-android-add-circle">Add</button>
     </form>
     <ion-list id="miLista-list15">
-      <ion-checkbox id="miLista-checkbox15">Detergente</ion-checkbox>
-      <ion-checkbox id="miLista-checkbox16">Huevos</ion-checkbox>
-      <ion-checkbox id="miLista-checkbox17">Leche</ion-checkbox>
-      <ion-checkbox id="miLista-checkbox18">Pan</ion-checkbox>
+        <ion-item ng-repeat="producto in productos.slice()">
+          <ion-checkbox ng-checked="producto.comprar" ng-click="comprado(producto)">
+            <ion-label>{{producto.nombre}}</ion-label>
+          </ion-checkbox>
+        </ion-item>
     </ion-list>
     <button id="miLista-button20" class="button button-balanced button-small button-block">Todo comprado</button>
   </ion-content>

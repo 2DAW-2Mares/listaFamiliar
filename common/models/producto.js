@@ -30,8 +30,21 @@ module.exports = function(Producto) {
       // Vamos a poner que ya estan comprados los productos
       next();
     });
+  });
 
-    // En esta función se añade o se crea el filtro correspondiente para que los cambios afecten unicamente la lista a la que pertenece
+  Producto.beforeRemote('find', function (context, producto, next) {
+    var userId = context.req.accessToken.userId;
+    var Usuario = Producto.app.models.Usuario;
+
+    Usuario.findById(userId, function (err, usuario) {
+      // Vamos a añadir o modificar el filtro llamando a una funcion
+      if (!context.args.filter) context.args.filter = {};
+      context.args.filter.where = Producto.addListaFilter(context.args.filter.where, usuario.listaFamiliarId);
+      // Vamos a poner que ya estan comprados los productos
+      next();
+    });
+  });
+      // En esta función se añade o se crea el filtro correspondiente para que los cambios afecten unicamente la lista a la que pertenece
     Producto.addListaFilter = function(filter, listaFamiliarId) {
       if (filter) {
         var filterJSON = filter;
@@ -48,7 +61,6 @@ module.exports = function(Producto) {
       }
       return filter;
     };
-  });
 
   Producto.afterRemote('updateAll', function(context, producto, next) {
     Producto.find({
