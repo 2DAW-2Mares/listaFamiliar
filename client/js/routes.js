@@ -46,7 +46,7 @@ angular.module('app.routes', [])
     views: {
       'tab3': {
         templateUrl: 'templates/todasLasListas.html',
-        controller: 'todasLasListasCtrl'
+        controller: 'todasListasController'
       }
     }
   })
