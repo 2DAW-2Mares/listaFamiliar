@@ -68,6 +68,7 @@
           "deleteById": true,
           "create": true,
           "invitar": true,
+          "prototype.__get__solicitudes": true,
           "prototype.solicitar": true,
           "prototype.solicitar": true,
           "prototype.propietarioAlternativo": true

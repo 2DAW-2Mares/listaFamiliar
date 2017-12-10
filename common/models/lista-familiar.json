@@ -63,10 +63,18 @@
       "property": "solicitar"
     },
     {
-      "accessType": "READ",
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "findById"
     },
     {
       "accessType": "EXECUTE",
@@ -74,6 +82,13 @@
       "principalId": "miembroAlgunaLista",
       "permission": "ALLOW",
       "property": "invitar"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "miembroLista",
+      "permission": "ALLOW",
+      "property": "__get__solicitudes"
     }
   ],
   "methods": {

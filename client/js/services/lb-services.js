@@ -1998,6 +1998,13 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "PUT",
             },
 
+            // INTERNAL. Use ListaFamiliar.solicitudes() instead.
+            "::get::ListaFamiliar::solicitudes": {
+              isArray: true,
+              url: urlBase + "/ListasFamiliares/:id/solicitudes",
+              method: "GET",
+            },
+
             /**
              * @ngdoc method
              * @name lbServices.Usuario#getCurrent
@@ -2165,6 +2172,13 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         urlBase + "/ListasFamiliares/:id",
           { 'id': '@id' },
           {
+
+            // INTERNAL. Use ListaFamiliar.solicitudes() instead.
+            "prototype$__get__solicitudes": {
+              isArray: true,
+              url: urlBase + "/ListasFamiliares/:id/solicitudes",
+              method: "GET",
+            },
 
             /**
              * @ngdoc method
@@ -2508,6 +2522,46 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         */
         R.modelName = "ListaFamiliar";
 
+
+            /**
+             * @ngdoc method
+             * @name lbServices.ListaFamiliar#solicitudes
+             * @methodOf lbServices.ListaFamiliar
+             *
+             * @description
+             *
+             * Queries solicitudes of ListaFamiliar.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - ListaFamiliar id
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `filter` – `{object=}` -
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Usuario` object.)
+             * </em>
+             */
+        R.solicitudes = function() {
+          var TargetResource = $injector.get("Usuario");
+          var action = TargetResource["::get::ListaFamiliar::solicitudes"];
+          return action.apply(R, arguments);
+        };
 
 
         return R;

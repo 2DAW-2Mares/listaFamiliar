@@ -36,7 +36,7 @@ angular.module('app.routes', [])
     views: {
       'tab2': {
         templateUrl: 'templates/miembros.html',
-        controller: 'miembrosCtrl'
+        controller: 'MiembrosController'
       }
     }
   })

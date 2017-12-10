@@ -6,7 +6,7 @@ module.exports = function (app) {
 
   Role.registerResolver('miembroLista', function (role, context, cb) {
     // Q: Is the current request accessing a Project?
-    if (context.modelName !== 'Producto' && context.modelName !== 'Usuario') {
+    if (context.modelName !== 'Producto' && context.modelName !== 'Usuario' && context.modelName !== 'ListaFamiliar') {
       // A: No. This role is only for productos: callback with FALSE
       return process.nextTick(() => cb(null, false)
     )
@@ -46,6 +46,11 @@ module.exports = function (app) {
           instance.tieneSolicitudEnListaFamiliar(usuario.listaFamiliarId, function(err, tieneSolicitudEnLista){
             return cb(err, tieneSolicitudEnLista);
           })
+        } else if (context.modelName == 'ListaFamiliar') {
+          // Estamos intentando operar con una ListaFamiliar
+          // Por lo que debemos mirar si la lista solicitada es la del autenticado la lista del autenticado
+          // TODO hacer que findById lo pueda realizar únicamente los miembros de dicha lista
+            return cb(err, usuario.listaFamiliarId === context.modelId);
         }
 
       });

@@ -135,7 +135,7 @@ module.exports = function(Usuario) {
     Usuario.findById(userId, function(err, usuario) {
       // Vamos a añadir o modificar el filtro llamando a una funcion
       context.args.filter = Usuario.addListaFilter(context.args.filter, usuario.listaFamiliarId);
-      context.args.filter.fields = ['nombre', 'apellidos'];
+      context.args.filter.fields = ['id', 'nombre', 'apellidos', 'listaFamiliarId'];
       next();
     });
 

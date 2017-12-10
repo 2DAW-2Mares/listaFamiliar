@@ -1,24 +1,23 @@
 <ion-view title="Miembros" id="page11">
   <ion-content padding="true" class="has-header">
-    <form id="miembros-form6" class="list">
+    <form id="miembros-form6" class="list" ng-submit="invitar()">
       <label class="item item-input" id="miembros-input15">
-        <span class="input-label">email</span>
-        <input type="email" placeholder="email">
+        <input type="email" ng-model="invitar.email" placeholder="email">
       </label>
       <button id="miembros-button8" class="button button-positive button-small button-block icon-right ion-android-add-circle">Invitar</button>
     </form>
     <ion-list id="miembros-list13">
-      <ion-checkbox id="miembros-checkbox13">Miembro 1</ion-checkbox>
-      <ion-checkbox id="miembros-checkbox14">Owner</ion-checkbox>
-      <ion-checkbox id="miembros-checkbox19">Miembro 3</ion-checkbox>
+      <ion-item ng-repeat="miembro in miembros.slice()">
+        <ion-checkbox ng-checked="miembro.esPropietario" ng-click="transferirPropiedad(miembro)">
+          <ion-label>{{miembro.apellidos}}, {{miembro.nombre}}</ion-label>
+        </ion-checkbox>
+      </ion-item>
     </ion-list>
     <h4 id="miembros-heading3" style="color:#000000;">Solicitudes pendientes</h4>
     <ion-list id="miembros-list17">
-      <ion-item class="item-icon-right" id="miembros-list-item57">Solicitante 1
-        <i class="icon ion-android-person-add"></i>
-      </ion-item>
-      <ion-item class="item-icon-right" id="miembros-list-item58">Solicitante 2
-        <i class="icon ion-android-person-add"></i>
+      <ion-item  ng-repeat="solicitante in solicitudes.slice()" class="item-icon-right" id="miembros-list-item{{solicitante.id}}">
+        {{solicitante.apellidos}}, {{solicitante.nombre}}
+        <i class="icon ion-android-person-add" ng-click="aceptarSolicitud(solicitante)"></i>
       </ion-item>
     </ion-list>
   </ion-content>
