@@ -1,9 +1,9 @@
 <ion-view title="Mi Lista" id="miLista">
   <ion-content padding="true" class="has-header">
-    <form id="miLista-form13" class="list">
+    <form id="miLista-form13" class="list" ng-submit="nuevoProducto()">
       <label class="item item-input" id="miLista-input13">
         <span class="input-label">Nuevo producto</span>
-        <input type="text" placeholder="">
+        <input type="text" ng-model="nuevoProducto.nombre" placeholder="">
       </label>
       <button id="miLista-button19" class="button button-positive button-small button-block icon-right ion-android-add-circle">Add</button>
     </form>
@@ -14,6 +14,6 @@
           </ion-checkbox>
         </ion-item>
     </ion-list>
-    <button id="miLista-button20" class="button button-balanced button-small button-block">Todo comprado</button>
+    <button id="miLista-button20" ng-click="todoComprado()" class="button button-balanced button-small button-block">Todo comprado</button>
   </ion-content>
 </ion-view>

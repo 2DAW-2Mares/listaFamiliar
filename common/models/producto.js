@@ -62,22 +62,6 @@ module.exports = function(Producto) {
       return filter;
     };
 
-  Producto.afterRemote('updateAll', function(context, producto, next) {
-    Producto.find({
-      where: {
-        listaFamiliarId: context.res.locals.usuario.listaFamiliarId,
-      },
-    },
-      function(err, productos) {
-        context.result = productos;
-        context.resultType = {
-          type : 'array',
-          description : 'Los productos de la lista familiar'
-        };
-        next();
-      });
-  });
-
   /**
    * Negar el atributo comprar del producto indicado, es decir, si anteriormente estaba a false se pondrá a true y viceversa
    * @param {object} contexto El objeto del contexto
