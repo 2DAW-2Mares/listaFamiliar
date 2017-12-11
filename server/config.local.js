@@ -23,6 +23,7 @@ module.exports = {
   db_port: process.env.DB_PORT || 3306,
   db_user: process.env.DB_USER,
   db_password: process.env.DB_PASSWORD,
+  db_database: process.env.DB_DATABASE,
   email_user: process.env.EMAIL_USER,
   email_password: process.env.EMAIL_PASSWORD
 }
